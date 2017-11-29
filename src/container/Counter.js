@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 //action
 import { addCounter, reduceCounter, resetCounter, addAsyncCounter} from 'redux_module/redux/counter.redux.js';
+import axios from 'axios';
 
 @connect(
     (state)=>({counter: state.counter}),
@@ -21,6 +22,9 @@ class Counter extends React.Component {
                     <button onClick={this.handleReset.bind(this)}>恢复</button>
                     <button onClick={()=>this.props.addAsyncCounter()}>异步增加</button>
                 </div>
+                <div>
+                    <button onClick={this.handleGetData.bind(this)}>请求接口</button>
+                </div>
             </div>
         )
     }
@@ -32,6 +36,12 @@ class Counter extends React.Component {
     }
     handleReset(){
         this.props.resetCounter()
+    }
+    handleGetData(){
+        console.log('接口');
+        axios.get('/api/demo').then(res=>{
+            console.log(res)
+        })
     }
 
 }
