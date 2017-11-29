@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {Button} from 'antd-mobile'
+import {Button} from 'antd-mobile';
+import Counter from 'container/Counter.js'
 
 class App extends Component {
   render() {
@@ -15,6 +16,8 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <Button type="primary">按钮</Button>
+        <Counter />
+
       </div>
     );
   }
