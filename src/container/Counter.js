@@ -3,17 +3,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 //action
-import { addCounter, reduceCounter, resetCounter} from 'redux_module/redux/counter.redux.js';
+import { addCounter, reduceCounter, resetCounter, addAsyncCounter} from 'redux_module/redux/counter.redux.js';
 
 @connect(
     (state)=>({counter: state.counter}),
-    {addCounter, reduceCounter, resetCounter}
+    {addCounter, reduceCounter, resetCounter, addAsyncCounter}
 )
 class Counter extends React.Component {
-    constructor(props, context){
-        super(props, context);
-    }
-    render(){
+       render(){
         return (
             <div>
                 <h3>计数器</h3>
@@ -22,6 +19,7 @@ class Counter extends React.Component {
                     <button onClick={this.handleAdd.bind(this)}>增加</button>
                     <button onClick={this.handleReduce.bind(this)}>减少</button>
                     <button onClick={this.handleReset.bind(this)}>恢复</button>
+                    <button onClick={()=>this.props.addAsyncCounter()}>异步增加</button>
                 </div>
             </div>
         )
