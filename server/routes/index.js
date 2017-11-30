@@ -48,6 +48,7 @@ router.get('/create', function(req, res, next){
   })
 })
 router.post('/postform', multipartMiddleware, function(req, res, next){
-   res.json(req.body)
+
+   res.json({data:req.body,cookies:req.cookies})
 })
 module.exports = router;
