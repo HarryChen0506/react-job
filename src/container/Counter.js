@@ -5,10 +5,13 @@ import { connect } from 'react-redux';
 //action
 import { addCounter, reduceCounter, resetCounter, addAsyncCounter} from 'redux_module/redux/counter.redux.js';
 import axios from 'axios';
-import httpService from 'http_service/service.js'
+import httpService from 'http_service/service.js';
 
+const mapStateToProps = function(state){
+    return {counter: state.counter}
+}
 @connect(
-    (state)=>({counter: state.counter}),
+    mapStateToProps,
     {addCounter, reduceCounter, resetCounter, addAsyncCounter}
 )
 class Counter extends React.Component {
