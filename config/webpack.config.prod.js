@@ -97,6 +97,7 @@ module.exports = {
        container: path.join(__dirname, '../src/container'),
        component: path.join(__dirname, '../src/component'),
        redux_module: path.join(__dirname, '../src/redux_module'),
+       http_service: path.join(__dirname, '../src/http_service'),
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).

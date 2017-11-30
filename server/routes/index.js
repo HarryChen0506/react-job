@@ -1,5 +1,9 @@
 var express = require('express');
 var router = express.Router();
+//用于post Form-data解析参数
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+
 //mongoose
 var mongoose = require('mongoose');
 //链接数据库
@@ -42,5 +46,8 @@ router.get('/create', function(req, res, next){
   },function(err, doc){
     res.json(doc)
   })
+})
+router.post('/postform', multipartMiddleware, function(req, res, next){
+   res.json(req.body)
 })
 module.exports = router;

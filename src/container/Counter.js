@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 //action
 import { addCounter, reduceCounter, resetCounter, addAsyncCounter} from 'redux_module/redux/counter.redux.js';
 import axios from 'axios';
+import httpService from 'http_service/service.js'
 
 @connect(
     (state)=>({counter: state.counter}),
@@ -24,6 +25,9 @@ class Counter extends React.Component {
                 </div>
                 <div>
                     <button onClick={this.handleGetData.bind(this)}>请求接口</button>
+                    <button onClick={this.handleGetData2.bind(this)}>请求接口2</button>
+                    <button onClick={this.handlePostData.bind(this)}>post接口</button>
+                    <button onClick={this.handlePostFormData.bind(this)}>post接口Form</button>
                 </div>
             </div>
         )
@@ -41,6 +45,36 @@ class Counter extends React.Component {
         console.log('接口');
         axios.get('/api/demo').then(res=>{
             console.log(res)
+        })
+    }
+    handleGetData2(){
+        console.log('接口2');
+        httpService.demo.get('/api/demo',{
+            name: 'harry'
+        }).then((res)=>{
+            console.log('res',res)
+        },(err)=>{
+            console.log('err',err)
+        })
+    }
+    handlePostData(){
+        console.log('post接口');
+        httpService.demo.post('/api/postform',{
+            name: 'harry'
+        }).then((res)=>{
+            console.log('res',res)
+        },(err)=>{
+            console.log('err',err)
+        })
+    }
+    handlePostFormData(){
+        console.log('post接口');
+        httpService.demo.postForm('/api/postform',{
+            name: 'harry'
+        }).then((res)=>{
+            console.log('res',res)
+        },(err)=>{
+            console.log('err',err)
         })
     }
 
