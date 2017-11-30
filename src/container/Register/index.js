@@ -3,6 +3,14 @@ import React from 'react';
 import Logo from 'component/Logo';
 import { List, InputItem, WhiteSpace, WingBlank, Button, Radio  } from 'antd-mobile';
 
+const types = [{
+    name: '牛人',
+    code: 'genius'
+},{
+    name: 'BOSS',
+    code: 'boss'
+}]
+
 class Register extends React.Component{
     constructor(args){
         super(...args)
@@ -20,7 +28,6 @@ class Register extends React.Component{
                 <Logo></Logo> 
                  <WingBlank>
                      <h3 className="ta-c">注册</h3>
-                     <WhiteSpace />
                      <List>                    
                         <InputItem                        
                             type="text"
@@ -48,24 +55,15 @@ class Register extends React.Component{
                                     repeatPwd: v
                                 })
                             }}
-                        >重复密码</InputItem>                    
-                    </List>
-                     <WhiteSpace />
-                    <List>
-                        <RadioItem  checked={this.state.type==='genius'} onChange={(v)=>{
-                            this.setState({
-                                type: 'genius'
-                            })
-                        }}>
-                            牛人
-                        </RadioItem>
-                        <RadioItem  checked={this.state.type==='boss'} onChange={(v)=>{
-                            this.setState({
-                                type: 'boss'
-                            })
-                        }}>
-                            BOSS
-                        </RadioItem>                        
+                        >重复密码</InputItem>                        
+                        {types.map(v=>(                            
+                            <RadioItem  key={v.code} checked={this.state.type===v.code}  onChange={()=>{
+                                this.setState({
+                                    type: v.code
+                                })
+                            }}>{v.name}
+                            </RadioItem>
+                        ))}                  
                     </List>
                     <WhiteSpace />
                     <Button type="primary" onClick={this.login.bind(this)}>登录</Button>

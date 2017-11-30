@@ -17,7 +17,6 @@ class Login extends React.Component{
                 <Logo></Logo> 
                  <WingBlank>
                      <h3 className="ta-c">登录</h3>
-                     <WhiteSpace />
                      <List>                    
                         <InputItem                        
                             type="text"
