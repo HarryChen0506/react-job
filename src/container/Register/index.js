@@ -66,10 +66,15 @@ class Register extends React.Component{
                         ))}                  
                     </List>
                     <WhiteSpace />
+                    <Button type="primary" onClick={this.register.bind(this)}>注册</Button>
+                    <WhiteSpace />
                     <Button type="primary" onClick={this.login.bind(this)}>登录</Button>
                  </WingBlank>
             </div>           
         )
+    }
+    register(){
+        console.log('注册')
     }
     login(){
            this.props.history.push('/login')

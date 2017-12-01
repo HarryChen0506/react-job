@@ -46,13 +46,13 @@ class Counter extends React.Component {
     }
     handleGetData(){
         console.log('接口');
-        axios.get('/api/demo').then(res=>{
+        axios.get('/api/demo/list').then(res=>{
             console.log(res)
         })
     }
     handleGetData2(){
         console.log('接口2');
-        httpService.demo.get('/api/demo',{
+        httpService.demo.get('/api/demo/list',{
             name: 'harry'
         }).then((res)=>{
             console.log('res',res)
@@ -62,7 +62,7 @@ class Counter extends React.Component {
     }
     handlePostData(){
         console.log('post接口');
-        httpService.demo.post('/api/postform',{
+        httpService.demo.post('/api/demo/postform',{
             name: 'harry'
         }).then((res)=>{
             console.log('res',res)
@@ -72,7 +72,7 @@ class Counter extends React.Component {
     }
     handlePostFormData(){
         console.log('post接口');
-        httpService.demo.postForm('/api/postform',{
+        httpService.demo.postForm('/api/demo/postform',{
             name: 'harry'
         }).then((res)=>{
             console.log('res',res)

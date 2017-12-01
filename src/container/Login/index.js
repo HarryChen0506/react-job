@@ -38,10 +38,15 @@ class Login extends React.Component{
                         >密码</InputItem>                    
                     </List>
                     <WhiteSpace />
+                    <Button type="primary" onClick={this.login.bind(this)}>登录</Button>
+                    <WhiteSpace />
                     <Button type="primary" onClick={this.register.bind(this)}>注册</Button>
                  </WingBlank>
             </div>           
         )
+    }
+    login(){
+        console.log('登录')
     }
     register(){
         this.props.history.push('/register')
