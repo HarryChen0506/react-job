@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 // import './App.css';
 
-import getRouter from './router/router.js'
+import AppRoute from './router/router.js'
 
 class App extends Component {
   render() {
@@ -16,7 +16,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>*/}
        
-        {getRouter()}
+        <AppRoute/>
       </div>
     );
   }

@@ -4,20 +4,7 @@ var router = express.Router();
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
-//mongoose
-var mongoose = require('mongoose');
-//链接数据库
-mongoose.connect('mongodb://user:!QAZ2wsx@127.0.0.1:27017/job',{useMongoClient:true});
-//监听是否链接成功
-mongoose.connection.on('connected', function (){
-    console.log('MongoDB connected success.')
-})
-mongoose.connection.on('error', function (){
-    console.log('MongoDB connected fail.')
-})
-mongoose.connection.on('disconnected', function (){
-    console.log('MongoDB connected disconnected.')
-})
+
 var demos = require('../models/demo.js');
 
 //测试nodemon是否能实时更新

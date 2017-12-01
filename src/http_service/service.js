@@ -42,7 +42,20 @@ const demo = {
         return http.httpPostForm(url,data)
     }
 }
+const user = {
+    info: function(params){
+        const api = '/api/user'
+        const url = getUrl(api, params)
+        return http.httpGet(url)
+    },
+    register: function(data){
+        const api = '/api/user/register';
+        const url = getUrl(api);
+        return http.httpPost(url,data)
+    }
+}
 
 export default  {
-    demo
+    demo,
+    user
 }

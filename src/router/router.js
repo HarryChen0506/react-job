@@ -1,15 +1,35 @@
 // 路由
 import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
 import Dashboard from 'container/Dashboard.js'
 import Login from 'container/Login'
 import Register from 'container/Register'
+import AuthRoute from 'component/AuthRoute'
+// function AuthRoute(){
+//     return (<div>123</div>)
+// }
 
-
-function getRouter(){
+class AppRoute extends React.Component{
+    render(){
+        return(
+            <BrowserRouter>
+                <div>       
+                    <AuthRoute/>
+                    <Switch>   
+                        <Route path="/login" component={Login} />
+                        <Route path="/register" component={Register} />
+                        <Route path="/dashboard" component={Dashboard} />
+                    </Switch> 
+                </div>  
+            </BrowserRouter>
+        )
+    }
+}
+/*function getRouter(){
     return (
         <BrowserRouter>
-            <Switch>            
+            <Switch>     
+                <AuthRoute/>      
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
                 <Route path="/dashboard" component={Dashboard} />
@@ -17,6 +37,6 @@ function getRouter(){
             </Switch>            
         </BrowserRouter>
     )
-}
+}*/
 
-export default getRouter;
+export default AppRoute;

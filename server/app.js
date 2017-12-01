@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var demo = require('./routes/demo');
-var users = require('./routes/users');
+var user = require('./routes/user');
 
 
 var app = express();
@@ -24,9 +24,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//mongoose
+var mongoose = require('mongoose');
+//链接数据库
+mongoose.connect('mongodb://user:!QAZ2wsx@127.0.0.1:27017/job',{useMongoClient:true});
+//监听是否链接成功
+mongoose.connection.on('connected', function (){
+    console.log('MongoDB connected success.')
+})
+mongoose.connection.on('error', function (){
+    console.log('MongoDB connected fail.')
+})
+mongoose.connection.on('disconnected', function (){
+    console.log('MongoDB connected disconnected.')
+})
+
 app.use('/', index);
 app.use('/demo', demo);
-app.use('/users', users);
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
