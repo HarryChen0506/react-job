@@ -4,6 +4,10 @@
  * Module dependencies.
  */
 
+//babel 处理es6 例如async await
+require("babel-register");
+require("babel-polyfill");
+
 var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');

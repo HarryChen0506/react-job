@@ -70,4 +70,36 @@ router.get('/remove', function(req, res, next){
     })
 })
 
+//测试es6 async await
+router.get('/es6', function(req, res, next){
+    //测试es6
+    var sleep = function (time, index) {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                // 模拟出错了，返回 ‘error’   
+                if(index!==3){
+                     resolve('hello'+index);     
+                }else{
+                    reject('错误')
+                }          
+                                    
+            }, time);
+        })
+    };
+    async function start () {
+        for (var i = 1; i <= 5; i++) {
+            console.log(`当前是第${i}次等待..`); 
+            try{
+                const value = await sleep(1000, i); 
+                console.log('value',value);
+            } catch (error) {
+                console.log(error);
+            }            
+            console.log('执行不？')
+        }
+    };
+    start();
+    console.log('继续')
+})
+
 module.exports = router;
