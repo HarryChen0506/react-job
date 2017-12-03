@@ -11,10 +11,25 @@ function handle4err(err,res){
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    // res.send('respond with a resource');
-    res.json({
-      code: 200,
-      msg: "失败"
+    //获取cookie
+    let { userId } = req.cookies;
+    users.findOne({_id:userId},(err, doc)=>{
+        if(err){
+            handle4err(err,res);
+            return
+        }
+        if(doc){
+            res.json({
+              code:200,
+              msg: '用户id正确',
+              result: doc
+            })
+        }else{
+            res.json({
+              code:210,
+              msg: '无该用户id'
+            })
+        }
     })
 
 });
@@ -30,33 +45,50 @@ router.post('/register',function(req, res, next){
         if(doc.length>0){
             res.json({
               code: 210,
-              msg: '该用户已注册,请选择其他名字...'
+              msg: '该用户名已被注册,请选择其他名字...'
             })
             return
         } 
-        users.create({user,pwd,type},(err,doc)=>{
-            if(err){
+
+        let usersModel = new users({user, pwd, type});
+        usersModel.save((err, doc)=>{
+             if(err){
               handle4err(err,res);
               return
-            }    
+            } 
+            if(!doc){
+                res.json({
+                    code:210,
+                    msg: '注册失败'
+                })
+            }   
+            res.cookie('userId', doc._id)
+            doc.pwd='';
             res.json({
               code:200,
               msg: '成功',
               result: doc
             })
         })
+
+        // users.create({user,pwd,type},(err,doc)=>{
+        //     if(err){
+        //       handle4err(err,res);
+        //       return
+        //     }    
+        //     res.json({
+        //       code:200,
+        //       msg: '成功',
+        //       result: doc
+        //     })
+        // })
     })
     
 })
 //登录
 router.post('/login', function(req, res, next){
-    let {user, pwd} = req.body;
-    // res.json({
-    //     code: 200,
-    //     result:{user, pwd},
-    //     msg: '成功'
-    // })
-    users.findOne({user,pwd},(err, doc)=>{
+    let {user, pwd} = req.body;       
+    users.findOne({user,pwd},{pwd: 0},(err, doc)=>{
         if(err){
             handle4err(err,res);
             return
@@ -67,6 +99,7 @@ router.post('/login', function(req, res, next){
               msg: '用户名或密码不正确!'
             })
         }else{
+            res.cookie('userId',doc._id)
             res.json({
                 code: 200,
                 result:doc,

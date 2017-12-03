@@ -1,9 +1,15 @@
 //根据权限来控制跳转页面
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import httpService from 'http_service/service.js';
+import { loadData } from 'redux_module/redux/user.redux.js';
 
 @withRouter
+@connect(
+    null,
+    {loadData}
+)
 class AuthRoute extends React.Component{
     constructor(args){
         super(...args)
@@ -25,7 +31,8 @@ class AuthRoute extends React.Component{
         httpService.user.info({}).then((res)=>{
             let data = res.data
             if(data.code===200){
-                this.props.history.push('/dashboard')
+                // this.props.history.push('/dashboard')
+                this.props.loadData(data.result);
             }else{
                 this.props.history.push('/login')
             }

@@ -2,6 +2,7 @@
 import React from 'react';
 import Logo from 'component/Logo';
 import {connect} from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { List, InputItem, WhiteSpace, WingBlank, Button, NoticeBar, Toast} from 'antd-mobile';
 import { login, errMsgClear } from 'redux_module/redux/user.redux.js';
 @connect(
@@ -17,15 +18,16 @@ class Login extends React.Component{
         }        
         this.timeId = null;
     }
-    render(){
+    render(){  
         return (
             <div>
                 <Logo></Logo> 
                  <WingBlank>
-                     <h3 className="ta-c">登录</h3>
-                     {this.props.user.msg?<NoticeBar mode="" icon={null}>{this.props.user.msg}</NoticeBar>:null}                     
-                     <WhiteSpace /> 
-                     <List>                    
+                    <h3 className="ta-c">登录</h3>
+                    {this.props.user.redirectTo?<Redirect to={this.props.user.redirectTo}></Redirect>:null}
+                    {this.props.user.msg?<NoticeBar mode="" icon={null}>{this.props.user.msg}</NoticeBar>:null}                     
+                    <WhiteSpace /> 
+                    <List>                    
                         <InputItem                        
                             type="text"
                             placeholder="用户名"
@@ -38,7 +40,7 @@ class Login extends React.Component{
                             type="password"
                             placeholder="****"
                             clear
-                            onChange={(v)=>{this.handleChange.bind(this)('pwd',v);this.handleClearMsg.bind(this)()}}
+                            onChange={(v)=>{this.handleChange.bind(this)('pwd',v)}}
                         >密码</InputItem>                    
                     </List>
                     <WhiteSpace />
@@ -48,22 +50,6 @@ class Login extends React.Component{
                  </WingBlank>
             </div>           
         )
-    }  
-    componentDidUpdate(){
-        //当检测有错误提示， 清除密码
-        if(this.props.user.msg!==''){
-            console.log('remove')
-            this.timeId = setTimeout(()=>{
-                this.pwdInput.clearInput();     
-            },2000)                 
-        }
-    } 
-    handleClearMsg(){  
-        console.log(123);
-        if(this.timeId){
-            clearTimeout(this.timeId)
-        }      
-        this.props.errMsgClear();
     }
     handleChange(key, v){
         this.setState({
@@ -80,12 +66,18 @@ class Login extends React.Component{
             Toast.info('密码不能为空!',1);
             return 
         }
-        this.props.login({user, pwd})
+        this.props.login({user, pwd},()=>{
+            //成功的回调
+            console.log('成功的回调')
+        },()=>{
+            //失败的回调
+            console.log('失败的回调')
+            this.pwdInput.clearInput();
+        })
     }
-    register(){
-        this.pwdInput.clearInput();
-       
-        // this.props.history.push('/register')
+    register(){ 
+        this.props.errMsgClear();
+        this.props.history.push('/register')
     }
 }
 export default Login;

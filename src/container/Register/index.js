@@ -1,9 +1,10 @@
 //登录页面
 import React from 'react';
 import Logo from 'component/Logo';
+import { Redirect } from 'react-router-dom';
 import { List, InputItem, WhiteSpace, WingBlank, Button, Radio, Toast, NoticeBar  } from 'antd-mobile';
 import {connect} from 'react-redux';
-import {register} from 'redux_module/redux/user.redux.js'
+import {register, errMsgClear} from 'redux_module/redux/user.redux.js'
 
 const types = [{
     name: '牛人',
@@ -14,7 +15,7 @@ const types = [{
 }]
 @connect(
     (state)=>({user: state.user}),
-    {register}
+    {register, errMsgClear}
 )
 class Register extends React.Component{
     constructor(args){
@@ -33,22 +34,26 @@ class Register extends React.Component{
                 <Logo></Logo> 
                  <WingBlank>
                     <h3 className="ta-c">注册</h3>
+                    {this.props.user.redirectTo?<Redirect to={this.props.user.redirectTo}></Redirect>:null}
                     {this.props.user.msg?<NoticeBar mode="" icon={null}>{this.props.user.msg}</NoticeBar>:null}                     
                     <WhiteSpace />   
                     <List>                                        
                         <InputItem                        
                             type="text"
                             placeholder="用户名"
+                            clear
                             onChange={(v)=>this.handleChange.bind(this)('user',v)}
                         >用户名</InputItem>
                         <InputItem                        
                             type="password"
                             placeholder="****"
+                            clear
                             onChange={(v)=>this.handleChange.bind(this)('pwd',v)}
                         >密码</InputItem> 
                         <InputItem                        
                             type="password"
                             placeholder="****"
+                            clear
                             onChange={(v)=>this.handleChange.bind(this)('repeatPwd',v)}
                         >重复密码</InputItem>                        
                         {types.map(v=>(                            
@@ -88,7 +93,8 @@ class Register extends React.Component{
         this.props.register({user, pwd, type});
     }
     login(){
-           this.props.history.push('/login')        
+        this.props.errMsgClear();
+        this.props.history.push('/login')        
     }
 }
 export default Register;

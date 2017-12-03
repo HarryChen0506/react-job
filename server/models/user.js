@@ -3,6 +3,7 @@ var userSchema = new mongoose.Schema({
   "user": {type: String, required: true},
   "pwd": {type: String, required: true},
   "type": {type: String, required: true},
+  "avatar":{type: String}, //头像
   "desc":{type: String}, //个人简介或职位描述
   "title":{type: String}, //职位名
   "company":{type: String},  //公司名
