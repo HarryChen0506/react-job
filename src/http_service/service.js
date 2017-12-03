@@ -52,6 +52,11 @@ const user = {
         const api = '/api/user/register';
         const url = getUrl(api);
         return http.httpPost(url,data)
+    },
+    login: function(data){
+        const api = '/api/user/login';
+        const url = getUrl(api);
+        return http.httpPost(url,data)
     }
 }
 

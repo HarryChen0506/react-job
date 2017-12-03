@@ -2,7 +2,6 @@
 import React from 'react';
 import Logo from 'component/Logo';
 import { List, InputItem, WhiteSpace, WingBlank, Button, Radio, Toast, NoticeBar  } from 'antd-mobile';
-import httpService from 'http_service/service.js';
 import {connect} from 'react-redux';
 import {register} from 'redux_module/redux/user.redux.js'
 

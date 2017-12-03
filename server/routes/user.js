@@ -48,6 +48,33 @@ router.post('/register',function(req, res, next){
     })
     
 })
+//登录
+router.post('/login', function(req, res, next){
+    let {user, pwd} = req.body;
+    // res.json({
+    //     code: 200,
+    //     result:{user, pwd},
+    //     msg: '成功'
+    // })
+    users.findOne({user,pwd},(err, doc)=>{
+        if(err){
+            handle4err(err,res);
+            return
+        }   
+        if(!doc){
+            res.json({
+              code: 210,
+              msg: '用户名或密码不正确!'
+            })
+        }else{
+            res.json({
+                code: 200,
+                result:doc,
+                msg: '成功'
+            })
+        }
+    })
+})
 
 //获取用户信息
 router.get('/list', function(req, res, next){

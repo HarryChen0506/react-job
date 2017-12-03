@@ -3,6 +3,10 @@ var userSchema = new mongoose.Schema({
   "user": {type: String, required: true},
   "pwd": {type: String, required: true},
   "type": {type: String, required: true},
+  "desc":{type: String}, //个人简介或职位描述
+  "title":{type: String}, //职位名
+  "company":{type: String},  //公司名
+  "salary":{type: String}   //薪水
 }) 
 //User-模型名（可不要） user-数据库里集合名（必需）
 // Mongoose会将集合名称设置为模型名称的小写版。
