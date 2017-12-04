@@ -18,7 +18,7 @@ const types = [{
     {register, errMsgClear}
 )
 class Register extends React.Component{
-    constructor(args){
+    constructor(...args){
         super(...args)
         this.state = {
             user: '',
