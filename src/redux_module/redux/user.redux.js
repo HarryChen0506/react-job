@@ -7,16 +7,12 @@ const ERROR_MSG = 'ERROR_MSG';
 const ERROR_MSG_CLEAR = 'ERROR_MSG_CLEAR';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOAD_DATA = 'LOAD_DATA'; //加载用户数据
+const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
+const AUTH_SUCCESS = 'AUTH_SUCCESS';  //鉴权成功（登录，注册，更新）
 
-function registerSuccess(data){
+function authSuccess(data){
     return {
-        type: REGISTER_SUCCESS,
-        payload: data
-    } 
-}
-function loginSuccess(data){
-    return {
-        type: LOGIN_SUCCESS,
+        type: AUTH_SUCCESS,
         payload: data
     } 
 }
@@ -30,7 +26,7 @@ export function register(postData){
     return (dispatch)=>{
         httpService.user.register(postData).then((res)=>{
             if(res.data.code===200){
-                dispatch(registerSuccess(res.data.result))
+                dispatch(authSuccess(res.data.result))
             }else{
                 dispatch(errorMsg({msg:res.data.msg}))
             }
@@ -51,11 +47,24 @@ export function errMsgClear(data){
         payload: data
     }
 }
+export function update(postData){
+    return (dispatch)=>{
+        httpService.user.update(postData).then((res)=>{
+            if(res.data.code===200){
+                dispatch(authSuccess(res.data.result))
+            }else{
+                dispatch(errorMsg({msg:res.data.msg}))
+            }
+        },(err)=>{
+            dispatch(errorMsg({msg:err}))
+        })
+    }
+}
 export function login(postData, success_cb, fail_cb){
     return (dispatch)=>{
         httpService.user.login(postData).then((res)=>{
             if(res.data.code===200){
-                dispatch(loginSuccess(res.data.result))
+                dispatch(authSuccess(res.data.result))
                 success_cb && success_cb();
             }else{
                 dispatch(errorMsg({msg:res.data.msg}))
@@ -70,20 +79,17 @@ const initState = {
     user: '',
     pwd: '',
     type: '',
-    isAuth: false,
     msg: '',
     redirectTo: ''
 }
 export function user(state = initState, action){
     switch(action.type){
-        case REGISTER_SUCCESS:
-            return {...state, ...action.payload, msg:'', isAuth: true, redirectTo: getRedirectToPath(action.payload)}
+        case AUTH_SUCCESS:
+            return {...state, ...action.payload, msg:'',  redirectTo: getRedirectToPath(action.payload)}
         case ERROR_MSG:
             return {...state, ...action.payload} 
         case ERROR_MSG_CLEAR:
-            return {...state, ...action.payload, msg:''}
-        case LOGIN_SUCCESS:
-            return {...state, ...action.payload, msg:'', isAuth: true, redirectTo: getRedirectToPath(action.payload)}
+            return {...state, ...action.payload, msg:''}       
         case LOAD_DATA:
             return {...state, ...action.payload}
         default:

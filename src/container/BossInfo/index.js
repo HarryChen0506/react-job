@@ -1,8 +1,13 @@
 //完善boss信息页
 import React from 'react';
-import {NavBar, InputItem, TextareaItem} from 'antd-mobile';
+import { connect } from 'react-redux';
+import {NavBar, InputItem, TextareaItem, Button} from 'antd-mobile';
 import AvatarSelector from 'component/AvatarSelector';
-
+import { update } from 'redux_module/redux/user.redux.js';
+@connect(
+    (state)=>({user: state.user}),
+    {update}
+)
 class BossInfo extends React.Component{
     constructor(...args){
         super(...args);
@@ -48,6 +53,7 @@ class BossInfo extends React.Component{
                     labelNumber={5}
                     onChange={(v)=>this.handleChange.bind(this)('desc',v)}
                 />
+                <Button type="primary" onClick={this.update.bind(this)}>保存</Button>
             </div>            
         )
     }
@@ -55,6 +61,11 @@ class BossInfo extends React.Component{
         this.setState({
             [key]: val
         })
+    }
+    update(){
+        console.log(this.state)
+
+        this.props.update(this.state);
     }
 }
 

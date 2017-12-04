@@ -17,7 +17,9 @@ class AvatarSelector extends React.Component{
                             icon: require(`static/img/${val}.png`),
                             text: `${val}`
                         }));
-        let avatarHeader = this.state.imgname? (<div><span>当前选择的头像</span><img src={this.state.icon} style={{width: 20,marginLeft:10}}/></div>):(<span>请选择头像</span>);
+        let avatarHeader = this.state.imgname?
+            (<div style={{height:30}}><span>当前选择的头像</span><img src={this.state.icon} style={{width: 20,marginLeft:10}} alt=""/></div>):
+            (<div style={{height:30}}><span>请选择头像</span></div>);
         return (
             <div>
                 <List renderHeader={() => avatarHeader} className="my-list">
@@ -36,7 +38,7 @@ class AvatarSelector extends React.Component{
             icon: ele.icon,
             imgname: ele.text
         })
-        this.props.onSelectAvatar(ele.text)
+        this.props.onSelectAvatar(ele.text);
     }
 }
 export default AvatarSelector;

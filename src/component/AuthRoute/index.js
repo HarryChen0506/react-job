@@ -11,9 +11,6 @@ import { loadData } from 'redux_module/redux/user.redux.js';
     {loadData}
 )
 class AuthRoute extends React.Component{
-    constructor(args){
-        super(...args)
-    }
     render(){
         return null
     }

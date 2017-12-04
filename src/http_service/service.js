@@ -57,6 +57,11 @@ const user = {
         const api = '/api/user/login';
         const url = getUrl(api);
         return http.httpPost(url,data)
+    },
+    update: function(data){
+        const api = '/api/user/update';
+        const url = getUrl(api);
+        return http.httpPost(url,data)
     }
 }
 
