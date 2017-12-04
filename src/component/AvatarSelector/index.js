@@ -1,8 +1,12 @@
 //头像选择组件
 import React from 'react';
+import PropTypes from 'prop-types';
 import {List, Grid} from 'antd-mobile';
 import './avatar-selector.scss';
-class AvatarSelector extends React.Component{
+class AvatarSelector extends React.Component{  
+    static propTypes = {
+        onSelectAvatar: PropTypes.func    
+    }
     constructor(...args){
         super(...args);
         this.state = {

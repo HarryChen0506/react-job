@@ -6,6 +6,7 @@ import Login from 'container/Login'
 import Register from 'container/Register'
 import AuthRoute from 'component/AuthRoute'
 import BossInfo from 'container/BossInfo'
+import GeniusInfo from 'container/GeniusInfo'
 // function AuthRoute(){
 //     return (<div>123</div>)
 // }
@@ -20,6 +21,7 @@ class AppRoute extends React.Component{
                         <Route path="/login" component={Login} />
                         <Route path="/register" component={Register} />
                         <Route path="/bossinfo" component={BossInfo} />
+                        <Route path="/geniusinfo" component={GeniusInfo} />
                         <Route path="/dashboard" component={Dashboard} />
                     </Switch> 
                 </div>  

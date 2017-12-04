@@ -2,24 +2,24 @@ import httpService from 'http_service/service.js';
 import { getRedirectToPath } from 'utils/tool.js';
 
 //定义变量
-const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+
 const ERROR_MSG = 'ERROR_MSG';
 const ERROR_MSG_CLEAR = 'ERROR_MSG_CLEAR';
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOAD_DATA = 'LOAD_DATA'; //加载用户数据
-const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
 const AUTH_SUCCESS = 'AUTH_SUCCESS';  //鉴权成功（登录，注册，更新）
 
 function authSuccess(data){
+    let {pwd, ...filterData} = data
     return {
         type: AUTH_SUCCESS,
-        payload: data
+        payload: filterData
     } 
 }
 export function loadData(data){
+    let {pwd, ...filterData} = data
     return {
         type: LOAD_DATA,
-        payload: data
+        payload: filterData
     }
 }
 export function register(postData){
@@ -85,13 +85,13 @@ const initState = {
 export function user(state = initState, action){
     switch(action.type){
         case AUTH_SUCCESS:
-            return {...state, ...action.payload, msg:'',  redirectTo: getRedirectToPath(action.payload)}
+            return {...state, ...action.payload, msg:'', redirectTo: getRedirectToPath(action.payload)}
         case ERROR_MSG:
             return {...state, ...action.payload} 
         case ERROR_MSG_CLEAR:
             return {...state, ...action.payload, msg:''}       
         case LOAD_DATA:
-            return {...state, ...action.payload}
+            return {...state, ...action.payload, redirectTo: getRedirectToPath(action.payload)}
         default:
             return state
     }
