@@ -153,9 +153,14 @@ router.post('/update', function(req, res, next){
       
 })
 
-//获取用户信息
+//获取用户列表
 router.get('/list', function(req, res, next){
-    users.find({},(err,doc)=>{
+    const { type }= req.query;
+    let param = {};
+    if(type!==undefined && type!==null){
+        param = {type}
+    } 
+    users.find(param,(err,doc)=>{
         if(err){
             handle4err(err,res);
             return

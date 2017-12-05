@@ -14,7 +14,7 @@ function Page2(){
         <div>页面2：内容</div>     
     )
 }
-class Dashboard extends React.Component{
+class Demo extends React.Component{
     render(){
          return (
             <BrowserRouter>
@@ -40,4 +40,4 @@ class Dashboard extends React.Component{
         )
     }   
 }
-export default Dashboard;
+export default Demo;

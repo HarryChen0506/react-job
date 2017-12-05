@@ -48,6 +48,11 @@ const user = {
         const url = getUrl(api, params)
         return http.httpGet(url)
     },
+    list: function(params){
+        const api = '/api/user/list'
+        const url = getUrl(api, params)
+        return http.httpGet(url)
+    },
     register: function(data){
         const api = '/api/user/register';
         const url = getUrl(api);

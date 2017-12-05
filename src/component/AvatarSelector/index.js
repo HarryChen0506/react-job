@@ -18,7 +18,7 @@ class AvatarSelector extends React.Component{
         const avatarList = 'boy,girl,man,woman,bull,chick,crab,hedgehog,hippopotamus,koala,lemur,pig,tiger,whale,zebra'
                         .split(',')
                         .map((val, i) => ({
-                            icon: require(`static/img/${val}.png`),
+                            icon: require(`static/img/avatar/${val}.png`),
                             text: `${val}`
                         }));
         let avatarHeader = this.state.imgname?
