@@ -24,7 +24,9 @@ class Boss extends React.Component{
                                 extra={<span>{v.title}</span>}
                             />   
                             <Body>
-                                <div>{v.desc}</div>
+                                {v.desc.split('\n').map((v,index)=>(
+                                    <div key={index}>{v}</div>
+                                ))}                                
                             </Body>                                         
                         </Card>
                         <WhiteSpace /> 
@@ -34,9 +36,7 @@ class Boss extends React.Component{
         ) 
     }
     componentDidMount(){
-        console.log(123)
-        httpService.user.list({type: 'genius'}).then((res)=>{
-            console.log(res)
+        httpService.user.list({type: 'genius'}).then((res)=>{         
             this.setState({
                 userList: res.data
             })
