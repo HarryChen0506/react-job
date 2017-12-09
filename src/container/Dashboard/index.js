@@ -6,11 +6,8 @@ import { Route, Switch } from 'react-router-dom';
 import NavLinkBar from 'component/NavLinkBar'
 import './dashboard.scss'
 import Boss from 'component/Boss'
+import Genius from 'component/Genius'
 
-
-function Genius(){
-    return <div>牛人页面11</div>
-}
 function User(){
     return <div>User</div>
 }
