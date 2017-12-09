@@ -7,10 +7,9 @@ import NavLinkBar from 'component/NavLinkBar'
 import './dashboard.scss'
 import Boss from 'component/Boss'
 import Genius from 'component/Genius'
+import User from 'component/User'
 
-function User(){
-    return <div>User</div>
-}
+
 function Msg(){
     return <div>Msg</div>
 }

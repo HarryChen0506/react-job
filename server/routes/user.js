@@ -62,7 +62,7 @@ router.post('/register',function(req, res, next){
                     msg: '注册失败'
                 })
             }   
-            res.cookie('userId', doc._id)
+            res.cookie('userId', doc._id,{httpOnly: true })
             doc.pwd='';
             res.json({
               code:200,
@@ -99,13 +99,21 @@ router.post('/login', function(req, res, next){
               msg: '用户名或密码不正确!'
             })
         }else{
-            res.cookie('userId',doc._id)
+            res.cookie('userId',doc._id,{httpOnly: true })
             res.json({
                 code: 200,
                 result:doc,
                 msg: '成功'
             })
         }
+    })
+})
+//注销
+router.get('/logout',function(req, res, next){
+    res.cookie('userId', '', {expires: new Date(0)});
+    res.json({
+        code: 200,
+        msg: '注销成功'
     })
 })
 //更新信息

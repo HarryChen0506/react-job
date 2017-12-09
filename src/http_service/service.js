@@ -63,6 +63,11 @@ const user = {
         const url = getUrl(api);
         return http.httpPost(url,data)
     },
+    logout: function(){
+        const api = '/api/user/logout';
+        const url = getUrl(api);
+        return http.httpGet(url)
+    },
     update: function(data){
         const api = '/api/user/update';
         const url = getUrl(api);

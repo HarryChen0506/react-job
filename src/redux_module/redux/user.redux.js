@@ -7,6 +7,7 @@ const ERROR_MSG = 'ERROR_MSG';
 const ERROR_MSG_CLEAR = 'ERROR_MSG_CLEAR';
 const LOAD_DATA = 'LOAD_DATA'; //加载用户数据
 const AUTH_SUCCESS = 'AUTH_SUCCESS';  //鉴权成功（登录，注册，更新）
+const LOGOUT = 'LOGOUT';
 
 function authSuccess(data){
     let {pwd, ...filterData} = data
@@ -75,6 +76,11 @@ export function login(postData, success_cb, fail_cb){
         })
     }
 }
+export function logout(){
+    return {
+        type: LOGOUT
+    }
+}
 const initState = {
     user: '',
     pwd: '',
@@ -92,6 +98,8 @@ export function user(state = initState, action){
             return {...state, ...action.payload, msg:''}       
         case LOAD_DATA:
             return {...state, ...action.payload, redirectTo: getRedirectToPath(action.payload)}
+        case LOGOUT:
+            return {...initState, redirectTo: '/login'}
         default:
             return state
     }
