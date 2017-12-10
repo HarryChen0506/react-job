@@ -15,8 +15,17 @@ var user = require('./routes/user');
 
 
 var app = express();
+//增加中间件
+// app.use(function(req, res, next){
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+//     res.setHeader("Access-Control-Max-Age", "3600");
+//     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
+//     next();
+// })
 app.io = io; //将io附属在app上
 
+io.set('origins', '*:*');
 io.on( "connection", function( socket ){    
     // console.log( "io connected" );
     socket.on('sendMsg', function(data){
@@ -56,6 +65,8 @@ mongoose.connection.on('disconnected', function (){
 app.use('/', index);
 app.use('/demo', demo);
 app.use('/user', user);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
