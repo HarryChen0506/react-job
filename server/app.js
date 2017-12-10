@@ -4,6 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+//引入socket.io
+var socket_io = require('socket.io');
+var io = socket_io();
+
 
 var index = require('./routes/index');
 var demo = require('./routes/demo');
@@ -11,6 +15,12 @@ var user = require('./routes/user');
 
 
 var app = express();
+app.io = io; //将io附属在app上
+
+io.on( "connection", function( socket ){
+    
+    console.log( "io connected" );
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
