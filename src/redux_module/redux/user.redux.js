@@ -99,7 +99,7 @@ export function user(state = initState, action){
         case LOAD_DATA:
             return {...state, ...action.payload, redirectTo: getRedirectToPath(action.payload)}
         case LOGOUT:
-            return {...initState, redirectTo: '/login'}
+            return {...initState}
         default:
             return state
     }

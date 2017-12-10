@@ -29,12 +29,14 @@ class Register extends React.Component{
     }
     render(){
         const RadioItem = Radio.RadioItem;
+        const redirectTo = this.props.user.redirectTo;
+        const pathname = this.props.location.pathname;
         return (
             <div>                
                 <Logo></Logo> 
                  <WingBlank>
                     <h3 className="ta-c">注册</h3>
-                    {this.props.user.redirectTo?<Redirect to={this.props.user.redirectTo}></Redirect>:null}
+                    {redirectTo&&redirectTo!==pathname?<Redirect to={redirectTo}></Redirect>:null}
                     {this.props.user.msg?<NoticeBar mode="" icon={null}>{this.props.user.msg}</NoticeBar>:null}                     
                     <WhiteSpace />   
                     <List>                                        

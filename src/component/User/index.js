@@ -2,12 +2,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Result, List, Button, WhiteSpace, WingBlank, Modal } from 'antd-mobile';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 // import BrowserCookie from 'browser-cookies';
 import httpService from 'http_service/service.js';
 import { logout } from 'redux_module/redux/user.redux.js';
 
 const alert = Modal.alert;
+@withRouter
 @connect(
     state=>({user: state.user}),
     { logout }
@@ -17,7 +18,7 @@ class User extends React.Component{
         const user = this.props.user;
         const Item = List.Item;
         const Brief = Item.Brief;
-        const redirectTo = this.props.user.redirectTo;
+        const redirectTo = this.props.user.redirectTo;       
         return(
             user.user?(
             <div>                
@@ -56,6 +57,7 @@ class User extends React.Component{
         httpService.user.logout().then((res)=>{
             if(res.data.code===200){
                 this.props.logout();
+                this.props.history.push('/login')
             }            
         },(err)=>{
             console.log(err)
