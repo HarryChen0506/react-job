@@ -17,9 +17,12 @@ var user = require('./routes/user');
 var app = express();
 app.io = io; //将io附属在app上
 
-io.on( "connection", function( socket ){
-    
-    console.log( "io connected" );
+io.on( "connection", function( socket ){    
+    // console.log( "io connected" );
+    socket.on('sendMsg', function(data){
+        // console.log('data',data)
+        io.emit('recvMsg',data)
+    })
 });
 
 // view engine setup

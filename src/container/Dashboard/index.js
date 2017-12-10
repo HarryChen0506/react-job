@@ -8,10 +8,21 @@ import './dashboard.scss'
 import Boss from 'component/Boss'
 import Genius from 'component/Genius'
 import User from 'component/User'
+import { Button } from 'antd-mobile'
 
 
-function Msg(){
-    return <div>Msg</div>
+// function Msg(){
+//     return <div>Msg</div>
+// }
+class Msg extends React.Component{
+
+    render(){
+        return(
+            <Button type="primary" onClick={()=>{
+                this.props.history.push('/chat')
+            }}>开始聊天</Button>
+        )
+    }
 }
   
 @connect(
