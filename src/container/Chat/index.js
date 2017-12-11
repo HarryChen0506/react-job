@@ -3,9 +3,10 @@ import React from 'react';
 import io from 'socket.io-client';
 import { List, InputItem } from 'antd-mobile';
 
-const socket = io('ws://localhost:3001');   //不行
+// const socket = io('ws://localhost:3001');   //不行
 // const socket = io('ws://192.168.1.105:3001');  //可以，192.168.1.105是我的局域网ip , 3001是server的端口
-
+const io_url = window.location.hostname+':3001';
+const socket = io(io_url);                       //可以，推荐这种方式吧。
 
 
 // const socket = io('ws://127.0.0.1:8081',{path: '/chat/socket.io/'});

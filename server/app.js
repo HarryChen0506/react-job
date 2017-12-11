@@ -27,7 +27,7 @@ app.io = io; //将io附属在app上
 
 io.set('origins', '*:*');
 io.on( "connection", function( socket ){    
-    // console.log( "io connected" );
+    console.log( "io connected" );
     socket.on('sendMsg', function(data){
         // console.log('data',data)
         io.emit('recvMsg',data)
