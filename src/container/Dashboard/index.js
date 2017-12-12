@@ -19,7 +19,7 @@ class Msg extends React.Component{
     render(){
         return(
             <Button type="primary" onClick={()=>{
-                this.props.history.push('/chat')
+                this.props.history.push('/chat/mike')
             }}>开始聊天</Button>
         )
     }

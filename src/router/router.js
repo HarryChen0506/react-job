@@ -24,7 +24,7 @@ class AppRoute extends React.Component{
                         <Route path="/register" component={Register} />
                         <Route path="/bossinfo" component={BossInfo} />
                         <Route path="/geniusinfo" component={GeniusInfo} />
-                        <Route path="/chat" component={Chat}/>          
+                        <Route path="/chat/:userId" component={Chat}/>          
                         <Route component={Dashboard} />
                     </Switch> 
                 </div>  
