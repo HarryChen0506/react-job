@@ -3,10 +3,7 @@ import React from 'react';
 import { WingBlank, Card, WhiteSpace } from 'antd-mobile';
 import PropTypes from 'prop-types';
 
-class UserCard extends React.Component{    
-    static propTypes = {
-        dataList: PropTypes.array    
-    }
+class UserCard extends React.Component{
     render(){
         const Header = Card.Header;
         const Body = Card.Body;
@@ -38,5 +35,8 @@ class UserCard extends React.Component{
         )
     }
 }
+UserCard.prototype.propTypes = {
+        dataList: PropTypes.array    
+    }
 
 export default UserCard;

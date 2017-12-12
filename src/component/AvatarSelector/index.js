@@ -3,10 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {List, Grid} from 'antd-mobile';
 import './avatar-selector.scss';
-class AvatarSelector extends React.Component{  
-    static propTypes = {
-        onSelectAvatar: PropTypes.func    
-    }
+class AvatarSelector extends React.Component{      
     constructor(...args){
         super(...args);
         this.state = {
@@ -45,4 +42,7 @@ class AvatarSelector extends React.Component{
         this.props.onSelectAvatar(ele.text);
     }
 }
+AvatarSelector.prototype.propTypes = {
+        onSelectAvatar: PropTypes.func    
+    }
 export default AvatarSelector;

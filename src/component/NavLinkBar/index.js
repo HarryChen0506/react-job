@@ -5,10 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { TabBar } from 'antd-mobile';
 
 @withRouter
-class NavLinkBar extends React.Component{
-    static propTypes = {
-        dataList: PropTypes.array
-    }
+class NavLinkBar extends React.Component{   
     render(){
         const Item = TabBar.Item;
         const navList = this.props.dataList;
@@ -38,4 +35,7 @@ class NavLinkBar extends React.Component{
         )
     }
 }
+ NavLinkBar.prototype.propTypes = {
+        dataList: PropTypes.array
+    }
 export default NavLinkBar;

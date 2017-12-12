@@ -10,10 +10,10 @@ import store from 'redux_module/store.js'
 
 ReactDOM.render(
     (
-       <Provider store={store}>
-           <App/>
-       </Provider> 
+    <Provider store={store}>
+        <App/>
+    </Provider> 
     ), 
     document.getElementById('root')
-);
+);    
 registerServiceWorker();
