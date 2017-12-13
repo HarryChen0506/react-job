@@ -1,4 +1,4 @@
-// 个人中心页
+// 个人中心页 fix
 import React from 'react';
 import { connect } from 'react-redux';
 import { Result, List, Button, WhiteSpace, WingBlank, Modal } from 'antd-mobile';
@@ -18,7 +18,7 @@ class User extends React.Component{
         const user = this.props.user;
         const Item = List.Item;
         const Brief = Item.Brief;
-        const redirectTo = this.props.user.redirectTo;       
+        const redirectTo = this.props.user.redirectTo; 
         return(
             user.user?(
             <div>                
@@ -41,7 +41,7 @@ class User extends React.Component{
                 <WingBlank>
                     <Button type='primary' onClick={this.logout.bind(this)}>注销</Button>    
                 </WingBlank>                          
-            </div>):<Redirect to={redirectTo} />
+            </div>):(redirectTo===''?null:<Redirect to={redirectTo} />)
         )
     }
     logout(){

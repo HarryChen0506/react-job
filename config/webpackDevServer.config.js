@@ -84,7 +84,14 @@ module.exports = function(proxy, allowedHost) {
       // See https://github.com/facebookincubator/create-react-app/issues/387.
       disableDotRule: true,
       // index: '/'
+       rewrites: [
+          // { from: /^\/chat\/.*$/, to: '/index.html' },
+          { from: /^\/me$/, to: '/index.html' },
+          // { from: /^\/subpage/, to: '/views/subpage.html' },
+          // { from: /./, to: '/views/404.html' }
+      ]
     },
+    // historyApiFallback: false,
     public: allowedHost,
     proxy,
     before(app) {

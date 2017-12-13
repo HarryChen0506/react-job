@@ -62,6 +62,7 @@ class Dashboard extends React.Component{
         }];        
         const title = navList.filter((v)=>v.path===pathname)[0] && navList.filter((v)=>v.path===pathname)[0].title;
         const filterList = navList.filter(v=>!v.hide);
+        console.log('测试dash',pathname)
         return(
             <div className="dashboard">       
                 <NavBar mode="dark">{title}</NavBar>                
