@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import AppRoute from './router/router.js'
 
 class App extends Component {
-  render() {   
+  render() {  
+    alert(123) 
     return (
       <div className="App">
         {/*<header className="App-header">
