@@ -1,8 +1,10 @@
 //用户列表 卡片
 import React from 'react';
 import { WingBlank, Card, WhiteSpace } from 'antd-mobile';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+@withRouter
 class UserCard extends React.Component{
     render(){
         const Header = Card.Header;
@@ -12,7 +14,9 @@ class UserCard extends React.Component{
             <WingBlank>
                 {userList.map(v=>(
                     <div key={v._id}>
-                        <Card >
+                        <Card onClick={t=>{
+                            this.props.history.push(`/chat/${v._id}`)
+                        }}>
                             <Header
                                 title={v.user}
                                 thumb= {require(`static/img/avatar/${v.avatar}.png`)}
@@ -35,8 +39,8 @@ class UserCard extends React.Component{
         )
     }
 }
-UserCard.prototype.propTypes = {
-        dataList: PropTypes.array    
-    }
+UserCard.propTypes = {
+    dataList: PropTypes.array    
+}
 
 export default UserCard;

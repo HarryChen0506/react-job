@@ -15,6 +15,10 @@ var user = require('./routes/user');
 
 
 var app = express();
+let chats = require('./models/chat.js');
+function handle4err(err,socket){   
+      
+}
 //增加中间件
 // app.use(function(req, res, next){
 //     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -29,8 +33,17 @@ io.set('origins', '*:*');
 io.on( "connection", function( socket ){    
     console.log( "io connected" );
     socket.on('sendMsg', function(data){
-        // console.log('data',data)
-        io.emit('recvMsg',data)
+        console.log('data',data)
+        // io.emit('recvMsg',data)
+        const {from, to, msg} = data;
+        const chatId = [from, to].sort().join('_');
+        chats.create({from, to, chatId, content:msg},(err,doc)=>{
+            if(err){
+              handle4err(err,socket);
+              return
+            }  
+            io.emit('recvMsg', Object.assign({},doc))            
+        })
     })
 });
 

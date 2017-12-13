@@ -72,6 +72,11 @@ const user = {
         const api = '/api/user/update';
         const url = getUrl(api);
         return http.httpPost(url,data)
+    },
+    chatlist: function(params){
+        const api = '/api/user/chatlist'
+        const url = getUrl(api, params)
+        return http.httpGet(url)
     }
 }
 
