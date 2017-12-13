@@ -6,13 +6,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 
 module.exports = {
     //入口
     entry:{
         app: [ 
-            path.join(__dirname,'src/index.js')
+            path.join(__dirname,'../src/index.js')
         ],
         vendor: [
             'react', 
@@ -24,9 +25,9 @@ module.exports = {
         ]
     }, 
     output: {
-        path: path.join(__dirname, './dist'),
+        path: path.join(__dirname, '../dist'),
         // 输出到dist文件夹
-        filename: '[name].[chunkhash].js',
+        filename: 'static/js/[name].[chunkhash].js',
         chunkFilename: '[name].[chunkhash].js',
         // publicPath : '/'
     },
@@ -34,29 +35,54 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.jsx?$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/,
+                query: {
+                    presets: [ "env","react","es2015","stage-0","stage-2","stage-3"],
+                    "plugins": [
+                                    [
+                                        "import",
+                                        {
+                                        "libraryName": "antd-mobile",
+                                        "style": "css"
+                                        }
+                                    ],
+                                    [
+                                        "transform-decorators-legacy"
+                                    ],
+                                    [
+                                        "transform-runtime"
+                                    ]
+                    ]
+                }
+            },{
                 test: /\.js$/,
                 use: ['babel-loader'],  //cacheDirectory缓存编译结果加速
                 include: path.join(__dirname, './src')
-            },{
+            },
+            {
                 test: /\.css$/,
                 // loader: 'style-loader!css-loader!postcss-loader',
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: ["css-loader", "postcss-loader"]
                 })
-            },{
+            },                  
+            {
                 test: /\.scss$/,
-                // loader: 'style-loader!css-loader!postcss-loader!sass-loader'
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: ["css-loader", "postcss-loader","sass-loader"]
-                })
+                loader: 'style-loader!css-loader!postcss-loader!sass-loader'
+                // use: ExtractTextPlugin.extract({
+                //     fallback: "style-loader",
+                //     use: ["css-loader", "postcss-loader","sass-loader"]
+                // })
             },{
                 test: /\.(jpg|gif|png|jpeg|bmp)$/,
                 use: {
                     loader: 'url-loader',
                     options: {
-                        limit: 8192
+                        limit: 8192,
+                        name: 'static/media/[name].[hash:8].[ext]',
                     }
                 }
             },{ 
@@ -78,15 +104,16 @@ module.exports = {
         }),        
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: path.join(__dirname, 'src/index.tpl.html')
+            favicon: path.join(__dirname, '../public/favicon.ico'),
+            template: path.join(__dirname, '../public/index.html')
         }),
-         new CleanWebpackPlugin(['dist/*.*'],{
+         new CleanWebpackPlugin(['../dist/*.*'],{
             root: path.join(__dirname,"./"),
             verbose: true,
             dry: false
         }),
         new ExtractTextPlugin({
-            filename: '[name].[contenthash:5].css',
+            filename: 'static/css/[name].[contenthash].css',
             allChunks: true
         }),
         new webpack.HashedModuleIdsPlugin(),
@@ -96,18 +123,20 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: 'runtime'
         }),
-        new UglifyJSPlugin() 
+        new UglifyJSPlugin(),
+        new ManifestPlugin({
+            fileName: 'asset-manifest.json',
+        }),
     ],
     resolve: {
         alias: {
-            pages: path.join(__dirname, 'src/pages'),
-            components: path.join(__dirname, 'src/components'),
-            constants: path.join(__dirname, 'src/constants'),
-            router: path.join(__dirname, 'src/router'),
-            static: path.join(__dirname, 'src/static'),
-            actions: path.join(__dirname, 'src/redux/actions'),
-            reducers: path.join(__dirname, 'src/redux/reducers'),
-            httpService: path.join(__dirname, 'src/httpService')
+           'react-native': 'react-native-web',
+            container: path.join(__dirname, '../src/container'),
+            component: path.join(__dirname, '../src/component'),
+            redux_module: path.join(__dirname, '../src/redux_module'),
+            http_service: path.join(__dirname, '../src/http_service'),
+            utils:  path.join(__dirname, '../src/utils'),
+            static:  path.join(__dirname, '../src/static'),
         }
     }
 }
