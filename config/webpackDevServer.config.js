@@ -84,9 +84,9 @@ module.exports = function(proxy, allowedHost) {
       // See https://github.com/facebookincubator/create-react-app/issues/387.
       disableDotRule: true,
       // index: '/'
-       rewrites: [
-          // { from: /^\/chat\/.*$/, to: '/index.html' },
-          { from: /^\/me$/, to: '/index.html' },
+       historyApiFallback: [
+          { from: /^\/chat\/.*$/, to: '/index.html' },
+          // { from: /^\/me$/, to: '/404.html' },
           // { from: /^\/subpage/, to: '/views/subpage.html' },
           // { from: /./, to: '/views/404.html' }
       ]
@@ -103,6 +103,22 @@ module.exports = function(proxy, allowedHost) {
       // it used the same host and port.
       // https://github.com/facebookincubator/create-react-app/issues/2272#issuecomment-302832432
       app.use(noopServiceWorkerMiddleware());
+
+      // 中间件 我的添加
+      var rewriteRules = this.historyApiFallback.historyApiFallback;     
+      app.use(function(req, res, next){ 
+        // console.log('rewriteRules',rewriteRules)        
+        for(var i=0; i<rewriteRules.length; i++){
+          if(rewriteRules[i].from.test(req.url)){
+            req.url = rewriteRules[i].to
+          }
+        }
+        // if(/^\/chat\/.*$/.test(req.url)){
+        //   req.url = '/index.html'
+        // }    
+        //console.log('req',req.url)
+        next();
+      })
     },
   };
 };
