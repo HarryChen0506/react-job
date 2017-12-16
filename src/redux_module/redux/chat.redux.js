@@ -12,13 +12,14 @@ const MSG_RECV = 'MSG_RECV';
 
 const initState = {
     chatMsg: [],
+    users:[],
     unread: 0
 }
 
-function msgList(data){
+function msgList(msgs, users){
     return {
         type: MSG_LIST,
-        payload: data
+        payload: {msgs, users}
     }
 }
 function msgRecv(data){
@@ -30,7 +31,7 @@ function msgRecv(data){
 export function getMsgList(type){
     return (dispatch)=>{
         httpService.user.chatlist({type}).then((res)=>{
-            dispatch(msgList(res.data.result))
+            dispatch(msgList(res.data.result, res.data.users))
         },(err)=>{
            console.log(err)
         })
@@ -55,7 +56,7 @@ export function sendMsg({from, to, msg}){
 export function chat(state = initState, action){
     switch(action.type){
         case MSG_LIST:
-            return {...state, chatMsg: action.payload, unread: action.payload.filter(v=>(!v.readed)).length}
+            return {...state, chatMsg: action.payload.msgs, users:action.payload.users, unread: action.payload.msgs.filter(v=>(!v.readed)).length}
         case MSG_RECV:
             return {...state, chatMsg: [...state.chatMsg, action.payload], unread:state.chatMsg.length+1 }
         default:

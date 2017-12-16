@@ -1,10 +1,11 @@
 //聊天页面
 import React from 'react';
 // import io from 'socket.io-client';
-import { List, InputItem } from 'antd-mobile';
+import { List, InputItem, NavBar, Icon } from 'antd-mobile';
 import { connect } from 'react-redux';
 import { getMsgList, sendMsg, recvMsg } from 'redux_module/redux/chat.redux.js';
-
+import './chat.scss';
+const Item = List.Item;
 // const socket = io('ws://localhost:3001');   //不行
 // const socket = io('ws://192.168.1.105:3001');  //可以，192.168.1.105是我的局域网ip , 3001是server的端口
 // const io_url = window.location.hostname+':3001';
@@ -24,22 +25,16 @@ class Chat extends React.Component {
             text: ''
         }
     }
-    componentDidMount(){ 
-        // socket.on('recvMsg',(data)=>{
-        //     console.log(data)
-        //     this.setState({
-        //         msg: [...this.state.msg, data.content]
-        //     })
-        // })
-        this.props.getMsgList();
-        this.props.recvMsg();
+    componentDidMount(){
+        if (!this.props.chat.chatMsg.length) {
+			this.props.getMsgList();
+            this.props.recvMsg();
+		}        
     }  
+    componentWillUnmount(){
+        // console.log('销毁')
+    }
     handleSendMsg(){
-        // socket.emit('sendMsg',{text: this.state.text});
-        // this.setState({
-        //     text: ''
-        // })
-        console.log(this.props)
         const from = this.props.user._id;
         const to = this.props.match.params.userId;
         const msg = this.state.text;
@@ -47,20 +42,53 @@ class Chat extends React.Component {
         this.setState({
             text: ''
         })        
+    }    
+    showMsg(somebodyId, myId, v, users){
+        const avatar = require(`static/img/avatar/${users[v.from].avatar}.png`) 
+        if(v.from===somebodyId && v.to===myId){
+            return (<List key={v._id} className="chat-somebody">
+                        <Item
+                            wrap
+                            thumb={avatar}
+                        >
+                        {v.content}
+                        </Item>    
+                    </List>)
+        }else if(v.from===myId && v.to===somebodyId){
+            return (<List key={v._id} className="chat-me">
+                        <Item
+                            wrap
+                            extra={<img src={avatar}/>}
+                        >
+                        {v.content}
+                        </Item>    
+                    </List>)
+        }else{
+            return null
+        }         
     }
     render(){
         const msg = this.props.chat.chatMsg;
-        console.log('userId',this.props.match.params.userId)
+        // console.log('userId',this.props.match.params.userId)
+        // console.log('me',this.props.user)
+        const userId = this.props.match.params.userId;
+        const users = this.props.chat.users;
+        
+        const myId = this.props.user._id;  
+        if(!users||!users[userId]){
+            return null
+        }
         return (  
-            <div>
-                <div>聊天页面11111</div>  
-                {msg.map((v,index)=>(
-                    <div key={index}>
-                        来自：{v.from}--
-                        发给：{v.to}--
-                        内容：{v.content}
-                    </div>
-                ))}
+            <div className="chat-page">
+                <NavBar mode="dark"
+                    icon={<Icon type="left" />}
+                    onLeftClick={() => this.props.history.goBack()}
+                >{users[userId].name}</NavBar> 
+                <div className="main">
+                    {msg.map((v,index)=>(
+                       this.showMsg(userId,myId,v, users)
+                    ))}
+                </div>                
                 <List>
                     <InputItem
                         type="text"

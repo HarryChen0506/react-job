@@ -196,24 +196,46 @@ router.get('/chatlist', function(req, res, next){
     // if(type!==undefined && type!==null){
     //     param = {type}
     // } 
-    chats.find({'$or':[{'from':userId},{'to': userId}]},(err,doc)=>{
+    users.find({},(err,userDoc)=>{
         if(err){
             handle4err(err,res);
             return
         }  
-        if(!doc){
+        let userList = {};
+        Array.forEach(userDoc,(val, index)=>{
+            userList[val._id] = {
+                name: val.user,
+                avatar: val.avatar
+            }
+        })
+        chats.find({'$or':[{'from':userId},{'to': userId}]},(err,doc)=>{
+            if(err){
+                handle4err(err,res);
+                return
+            }  
+            if(!doc){
+                res.json({
+                    code:210,
+                    msg: '获取聊天列表失败'
+                })
+            }
             res.json({
-                code:210,
-                msg: '获取聊天列表失败'
+                code:200,
+                msg: '成功',
+                result: doc,
+                users: userList
             })
-        }
-        res.json({
-            code:200,
-            msg: '成功',
-            result: doc
         })
     })
+    
 })
+
+//   chats.remove({},(err,doc)=>{      
+//         if(err){
+//             handle4err(err,res);
+//             return
+//         }
+//     })
 
 //测试es6 async await
 router.get('/es6', function(req, res, next){

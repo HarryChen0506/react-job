@@ -37,7 +37,8 @@ io.on( "connection", function( socket ){
         // io.emit('recvMsg',data)
         const {from, to, msg} = data;
         const chatId = [from, to].sort().join('_');
-        chats.create({from, to, chatId, content:msg},(err,doc)=>{
+        const created_time = Date.now();
+        chats.create({from, to, chatId, created_time,content:msg},(err,doc)=>{
             if(err){
               handle4err(err,socket);
               return

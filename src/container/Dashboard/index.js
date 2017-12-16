@@ -10,12 +10,12 @@ import Genius from 'component/Genius'
 import User from 'component/User'
 import { Button } from 'antd-mobile'
 
+import { getMsgList, recvMsg } from 'redux_module/redux/chat.redux.js';
 
 // function Msg(){
 //     return <div>Msg</div>
 // }
 class Msg extends React.Component{
-
     render(){
         return(
             <Button type="primary" onClick={()=>{
@@ -26,10 +26,16 @@ class Msg extends React.Component{
 }
   
 @connect(
-    state=>({user: state.user}),
-    null
+    state=>({user: state.user,chat: state.chat}),
+   { getMsgList, recvMsg }
 )
-class Dashboard extends React.Component{      
+class Dashboard extends React.Component{  
+    componentDidMount(){        
+        if (!this.props.chat.chatMsg.length) {
+			this.props.getMsgList();
+            this.props.recvMsg();
+		}        
+    }     
     render(){
         const pathname = this.props.location.pathname;
         const type = this.props.user.type;

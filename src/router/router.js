@@ -9,11 +9,12 @@ import BossInfo from 'container/BossInfo'
 import GeniusInfo from 'container/GeniusInfo'
 import Dashboard from 'container/Dashboard'
 import Chat from 'container/Chat'
+
 // function AuthRoute(){
 //     return (<div>123</div>)
 // }
 
-class AppRoute extends React.Component{
+class AppRoute extends React.Component{ 
     render(){
         return(
             <BrowserRouter>
