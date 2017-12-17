@@ -5,8 +5,6 @@ import io from 'socket.io-client';
 const io_url = window.location.hostname+':3001';
 const socket = io(io_url);                       //可以，推荐这种方式吧。
 
-
-
 const MSG_LIST = 'MSG_LIST';
 const MSG_RECV = 'MSG_RECV';
 const MSG_READ = 'MSG_READ';
@@ -53,7 +51,10 @@ export function recvMsg(){
     return (dispatch, getState)=>{
         socket.on('recvMsg',(data)=>{
             const myId = getState().user._id;
-            dispatch(msgRecv(data._doc, myId))            
+            // console.log('data._doc',data._doc)            
+            if(data._doc.from===myId||data._doc.to===myId){
+                dispatch(msgRecv(data._doc, myId)) 
+            }                       
         })
     }
 }

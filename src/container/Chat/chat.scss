@@ -6,6 +6,7 @@
    .main {
        flex:1;
        overflow: auto;
+       padding: 0 0 20px 0;
        .am-list-body {
             // border-bottom: 1px solid #f1e8e8;
             border-top: none;
@@ -23,6 +24,21 @@
            .am-list-extra{
                 flex-basis:auto;
             }        
+       }
+   }
+   .send-box{
+       display: flex;
+       flex-direction: row;
+       .textarea-input {
+           flex:1
+       }
+       .send-msg {
+           margin-top: 15px;
+           margin-right: 15px;
+           color:#888;
+           .emoji {
+               margin-right:5px
+           }
        }
    }
 

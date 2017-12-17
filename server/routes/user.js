@@ -183,7 +183,7 @@ router.post('/readmsg',function(req, res, next){
                 msg: '更新已读消息失败'
             })
         }   
-        console.log(doc)
+        // console.log(doc)
         res.json({
             code:200,
             msg: '更新已读消息成功',

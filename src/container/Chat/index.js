@@ -1,7 +1,7 @@
 //聊天页面
 import React from 'react';
 // import io from 'socket.io-client';
-import { List, InputItem, NavBar, Icon, Toast } from 'antd-mobile';
+import { List, NavBar, Icon, Toast,TextareaItem } from 'antd-mobile';
 import Emoji from 'component/Emoji';
 import { connect } from 'react-redux';
 import { getMsgList, sendMsg, recvMsg, readMsg } from 'redux_module/redux/chat.redux.js';
@@ -34,13 +34,21 @@ class Chat extends React.Component {
 		}
     }  
     componentWillUnmount(){
-        console.log('销毁')
+        // console.log('销毁')
         const myId = this.props.user._id; 
-        const targrtId = this.props.match.params.userId;        
-        this.props.readMsg({
-            from: targrtId,
-            to: myId
-        });
+        const targrtId = this.props.match.params.userId; 
+        // console.log('state', this.props.chat.chatMsg)  
+        const hasUnreaded = this.props.chat.chatMsg.some((v, index)=>{
+            return v.from===targrtId && v.to===myId && v.readed===false
+        })  
+        // console.log('hasUnreaded',hasUnreaded)
+        if(hasUnreaded){
+            //如果有未读的，就发送接口给后台，将未读消息归0
+             this.props.readMsg({
+                from: targrtId,
+                to: myId
+            });
+        }       
     }
     handleSendMsg(){
         const from = this.props.user._id;
@@ -69,7 +77,9 @@ class Chat extends React.Component {
                             wrap
                             thumb={avatar}
                         >
-                        {v.content}
+                        {v.content.split('\n').map((v,index)=>(
+                            <div key={index}>{v}</div>     
+                        ))}
                         </Item>    
                     </List>)
         }else if(v.from===myId && v.to===somebodyId){
@@ -78,7 +88,9 @@ class Chat extends React.Component {
                             wrap
                             extra={<img src={avatar} alt=""/>}
                         >
-                        {v.content}
+                        {v.content.split('\n').map((v,index)=>(
+                            <div key={index}>{v}</div>     
+                        ))}
                         </Item>    
                     </List>)
         }else{
@@ -110,7 +122,27 @@ class Chat extends React.Component {
                     ))}
                 </div>                
                 <List>
-                    <InputItem
+                    <div className="send-box">
+                        <div className="textarea-input">
+                            <TextareaItem 
+                                placeholder="请输入..."
+                                data-seed="logId"
+                                ref={el => this.autoFocusInst = el}
+                                value={this.state.text}
+                                onChange={(v)=>{
+                                    this.setState({
+                                        text: v
+                                    })
+                                }}
+                                autoHeight
+                            />
+                        </div>
+                        <div className="send-msg">
+                            <span className="emoji" onClick={this.handleShowEmoji.bind(this)}>😃</span>
+                            <span onClick={this.handleSendMsg.bind(this)}>发送</span>
+                        </div>
+                    </div>                    
+                    {/*<InputItem
                         type="text"
                         placeholder="请输入..."
                         onChange={(v)=>{
@@ -133,7 +165,7 @@ class Chat extends React.Component {
                                 <span onClick={this.handleSendMsg.bind(this)}>发送</span>
                             </div>                             
                         }
-                    ></InputItem>
+                    ></InputItem>*/}
                     {this.state.showEmoji?<Emoji onHandleClick={v=>{
                         this.setState({
                             text: this.state.text + v.text
