@@ -27,12 +27,22 @@ class Chat extends React.Component {
             text: '',
             showEmoji: false
         }
+        this.chatMsgLength = 0; //记录当前的聊天条数
     }
     componentDidMount(){
         if (!this.props.chat.chatMsg.length) {
 			this.props.getMsgList();
 		}
+        this.scrollChatBox();
     }  
+    componentDidUpdate(){
+       const chatMsgLength = this.getChatMsgLength();
+        if(chatMsgLength!==this.chatMsgLength){   
+            //如果当前聊天的信息增加，就触发scroll        
+            this.chatMsgLength = chatMsgLength;
+            this.scrollChatBox();
+        }
+    }
     componentWillUnmount(){
         // console.log('销毁')
         const myId = this.props.user._id; 
@@ -49,6 +59,19 @@ class Chat extends React.Component {
                 to: myId
             });
         }       
+    }
+    getChatMsgLength(){
+        const userId = this.props.match.params.userId;
+        const myId = this.props.user._id; 
+        const msg = this.props.chat.chatMsg.filter(v=>v.chatId===getChatId(myId,userId));
+        return msg.length
+    }
+    scrollChatBox(){
+        var dom = document.getElementById('chat-main');        
+        if(dom){
+            // console.log('dom',dom.scrollHeight);
+            dom.scrollTop = dom.scrollHeight;
+        }
     }
     handleSendMsg(){
         const from = this.props.user._id;
@@ -97,8 +120,7 @@ class Chat extends React.Component {
             return null
         }         
     }
-    render(){
-        
+    render(){        
         // console.log('userId',this.props.match.params.userId)
         // console.log('me',this.props.user)
         const userId = this.props.match.params.userId;
@@ -116,7 +138,7 @@ class Chat extends React.Component {
                     icon={<Icon type="left" />}
                     onLeftClick={() => this.props.history.goBack()}
                 >{users[userId].name}</NavBar> 
-                <div className="main">
+                <div className="main" id="chat-main">
                     {msg.map((v,index)=>(
                        this.showMsg(userId,myId,v, users)
                     ))}
