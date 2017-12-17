@@ -162,6 +162,36 @@ router.post('/update', function(req, res, next){
     })
       
 })
+//读取消息
+router.post('/readmsg',function(req, res, next){
+    let userId = req.cookies.userId;
+    let {from} = req.body;
+    if(!userId){
+        return res.json({
+              code: 210,
+              msg: 'userId的cookie不正确'
+            })
+    }
+    chats.update({from,to:userId},{$set:{readed: true}},{multi: true},(err,doc)=>{
+        if(err){
+            handle4err(err,res);
+            return
+        } 
+        if(!doc){
+            res.json({
+                code:210,
+                msg: '更新已读消息失败'
+            })
+        }   
+        console.log(doc)
+        res.json({
+            code:200,
+            msg: '更新已读消息成功',
+            readedNum: doc.nModified
+        })
+    })
+
+})
 
 //获取用户列表
 router.get('/list', function(req, res, next){

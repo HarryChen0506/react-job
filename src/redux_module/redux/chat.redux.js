@@ -9,6 +9,7 @@ const socket = io(io_url);                       //可以，推荐这种方式�
 
 const MSG_LIST = 'MSG_LIST';
 const MSG_RECV = 'MSG_RECV';
+const MSG_READ = 'MSG_READ';
 
 const initState = {
     chatMsg: [],
@@ -27,6 +28,14 @@ function msgRecv(data, userId){
         type: MSG_RECV,
         payload: data,
         userId: userId
+    }
+}
+function msgRead({targetId,myId,readedNum}){
+    return {
+        type: MSG_READ,
+        readedNum: readedNum,
+        targetId: targetId,
+        myId: myId
     }
 }
 export function getMsgList(type){
@@ -54,6 +63,24 @@ export function sendMsg({from, to, msg}){
         socket.emit('sendMsg',{from, to, msg});
     }
 }
+//读取消息 提醒消息数归0
+export function readMsg({from, to}){
+    //from 对方
+    //to 自己
+    const targetId = from;
+    return (dispath, getState)=>{
+        //发送post 接口
+        const myId = getState().user._id
+        const postData = {
+            from: targetId
+        }
+        httpService.user.readMsg(postData).then((res)=>{
+           dispath(msgRead({targetId, myId, readedNum:res.data.readedNum}))
+        },(err)=>{
+           console.log(err)
+        })
+    }
+}
 
 //reducer
 export function chat(state = initState, action){
@@ -63,6 +90,16 @@ export function chat(state = initState, action){
         case MSG_RECV:
             const n = action.userId===action.payload.to?1:0;
             return {...state, chatMsg: [...state.chatMsg, action.payload], unread:state.unread+n }
+        case MSG_READ:
+            const readedNum = action.readedNum;
+            return {...state, 
+                    chatMsg:state.chatMsg.map((v)=>{
+                                if(v.from===action.targetId && v.to===action.myId){
+                                    v.readed = true
+                                }
+                                return v
+                            }), 
+                    unread: state.unread-readedNum}
         default:
             return state
     }

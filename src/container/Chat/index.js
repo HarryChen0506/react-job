@@ -4,7 +4,7 @@ import React from 'react';
 import { List, InputItem, NavBar, Icon, Toast } from 'antd-mobile';
 import Emoji from 'component/Emoji';
 import { connect } from 'react-redux';
-import { getMsgList, sendMsg, recvMsg } from 'redux_module/redux/chat.redux.js';
+import { getMsgList, sendMsg, recvMsg, readMsg } from 'redux_module/redux/chat.redux.js';
 import { getChatId } from 'utils/tool.js';
 import './chat.scss';
 const Item = List.Item;
@@ -18,7 +18,7 @@ const Item = List.Item;
 // const socket = io('ws://127.0.0.1:3001');
 @connect(
     state=>state,
-    { getMsgList, sendMsg, recvMsg }
+    { getMsgList, sendMsg, recvMsg, readMsg }
 )
 class Chat extends React.Component {
     constructor(...args){
@@ -34,7 +34,13 @@ class Chat extends React.Component {
 		}
     }  
     componentWillUnmount(){
-        // console.log('销毁')
+        console.log('销毁')
+        const myId = this.props.user._id; 
+        const targrtId = this.props.match.params.userId;        
+        this.props.readMsg({
+            from: targrtId,
+            to: myId
+        });
     }
     handleSendMsg(){
         const from = this.props.user._id;

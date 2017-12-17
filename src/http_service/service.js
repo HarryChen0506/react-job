@@ -77,6 +77,11 @@ const user = {
         const api = '/api/user/chatlist'
         const url = getUrl(api, params)
         return http.httpGet(url)
+    },
+    readMsg: function(data){
+        const api = '/api/user/readmsg'
+        const url = getUrl(api);
+        return http.httpPost(url,data)
     }
 }
 
