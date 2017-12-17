@@ -230,12 +230,12 @@ router.get('/chatlist', function(req, res, next){
     
 })
 
-//   chats.remove({},(err,doc)=>{      
-//         if(err){
-//             handle4err(err,res);
-//             return
-//         }
-//     })
+    // chats.remove({},(err,doc)=>{      
+    //     if(err){
+    //         handle4err(err,res);
+    //         return
+    //     }
+    // })
 
 //测试es6 async await
 router.get('/es6', function(req, res, next){

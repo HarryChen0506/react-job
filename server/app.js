@@ -33,7 +33,7 @@ io.set('origins', '*:*');
 io.on( "connection", function( socket ){    
     console.log( "io connected" );
     socket.on('sendMsg', function(data){
-        console.log('data',data)
+        // console.log('data',data)
         // io.emit('recvMsg',data)
         const {from, to, msg} = data;
         const chatId = [from, to].sort().join('_');

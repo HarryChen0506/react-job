@@ -13,3 +13,7 @@ export function getRedirectToPath({type, avatar}){
     }
     return url
 }
+//获取chatId
+export function getChatId(myId, somebodyId){
+    return [myId, somebodyId].sort().join('_')
+}

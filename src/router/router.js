@@ -10,11 +10,21 @@ import GeniusInfo from 'container/GeniusInfo'
 import Dashboard from 'container/Dashboard'
 import Chat from 'container/Chat'
 
+import { connect } from 'react-redux';
+import { recvMsg } from 'redux_module/redux/chat.redux.js';
 // function AuthRoute(){
 //     return (<div>123</div>)
 // }
-
+@connect(
+    state=>state,
+    { recvMsg }
+)
 class AppRoute extends React.Component{ 
+    componentDidMount(){
+        if(!this.props.chat.chatMsg.length){
+            this.props.recvMsg();
+        }
+    }
     render(){
         return(
             <BrowserRouter>

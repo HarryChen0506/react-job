@@ -5,7 +5,7 @@ var chatSchema = new mongoose.Schema({
   "from": {type: String, required: true},    //发自谁
   "to": {type: String, required: true},      //发给谁
   "content":{type: String, default: ''}, //头像
-  "readed":{type: Boolean, fefault: false},
+  "readed":{type: Boolean, default: false},
   "created_time":{type: Number, required: true}, //个人简介或职位描述 
 }) 
 //Chat-模型名（可不要） user-数据库里集合名（必需）

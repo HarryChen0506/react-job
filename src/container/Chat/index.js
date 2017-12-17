@@ -1,9 +1,11 @@
 //聊天页面
 import React from 'react';
 // import io from 'socket.io-client';
-import { List, InputItem, NavBar, Icon } from 'antd-mobile';
+import { List, InputItem, NavBar, Icon, Toast } from 'antd-mobile';
+import Emoji from 'component/Emoji';
 import { connect } from 'react-redux';
 import { getMsgList, sendMsg, recvMsg } from 'redux_module/redux/chat.redux.js';
+import { getChatId } from 'utils/tool.js';
 import './chat.scss';
 const Item = List.Item;
 // const socket = io('ws://localhost:3001');   //不行
@@ -22,14 +24,14 @@ class Chat extends React.Component {
     constructor(...args){
         super(...args);
         this.state={
-            text: ''
+            text: '',
+            showEmoji: false
         }
     }
     componentDidMount(){
         if (!this.props.chat.chatMsg.length) {
 			this.props.getMsgList();
-            this.props.recvMsg();
-		}        
+		}
     }  
     componentWillUnmount(){
         // console.log('销毁')
@@ -38,11 +40,21 @@ class Chat extends React.Component {
         const from = this.props.user._id;
         const to = this.props.match.params.userId;
         const msg = this.state.text;
+        if(msg===''){
+             Toast.info('发送内容不能为空!',1);
+            return 
+        }
         this.props.sendMsg({from, to, msg})
         this.setState({
-            text: ''
+            text: '',
+            showEmoji: false
         })        
-    }    
+    }  
+    handleShowEmoji(){
+        this.setState({
+            showEmoji: !this.state.showEmoji
+        })
+    }  
     showMsg(somebodyId, myId, v, users){
         const avatar = require(`static/img/avatar/${users[v.from].avatar}.png`) 
         if(v.from===somebodyId && v.to===myId){
@@ -58,7 +70,7 @@ class Chat extends React.Component {
             return (<List key={v._id} className="chat-me">
                         <Item
                             wrap
-                            extra={<img src={avatar}/>}
+                            extra={<img src={avatar} alt=""/>}
                         >
                         {v.content}
                         </Item>    
@@ -68,13 +80,15 @@ class Chat extends React.Component {
         }         
     }
     render(){
-        const msg = this.props.chat.chatMsg;
+        
         // console.log('userId',this.props.match.params.userId)
         // console.log('me',this.props.user)
         const userId = this.props.match.params.userId;
         const users = this.props.chat.users;
-        
-        const myId = this.props.user._id;  
+        const myId = this.props.user._id; 
+
+        const msg = this.props.chat.chatMsg.filter(v=>v.chatId===getChatId(myId,userId));      
+         
         if(!users||!users[userId]){
             return null
         }
@@ -104,8 +118,21 @@ class Chat extends React.Component {
                             }
                         }}
                         value={this.state.text}
-                        extra={<span onClick={this.handleSendMsg.bind(this)}>发送</span>}
+                        extra={
+                            <div style={{lineHeight: '20px'}}>
+                                <span 
+                                    style={{marginRight:5}} 
+                                    onClick={this.handleShowEmoji.bind(this)}
+                                >😃</span>
+                                <span onClick={this.handleSendMsg.bind(this)}>发送</span>
+                            </div>                             
+                        }
                     ></InputItem>
+                    {this.state.showEmoji?<Emoji onHandleClick={v=>{
+                        this.setState({
+                            text: this.state.text + v.text
+                        })
+                    }}/>:null}                  
                 </List>
             </div>
         )
