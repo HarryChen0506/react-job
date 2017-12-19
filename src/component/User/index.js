@@ -28,10 +28,10 @@ class User extends React.Component{
                     message={user.type==='boss'?user.company:null}
                 />
                 <List renderHeader={() => '简介'} className="my-list">
-                    <Item multipleLine>
+                    <Item wrap={true}>
                         {user.title}
-                        {user.desc.split('/n').map((v,index)=>(
-                            <Brief key={index}>{v}</Brief>
+                        {user.desc.split('\n').map((v,index)=>(
+                            <div key={index} style={{paddingLeft: 48}}><Brief >{v}</Brief></div>
                         ))}
                         {user.company? <Brief>公司：{user.company}</Brief>:null}
                         {user.salary? <Brief>薪资：{user.salary}</Brief>:null}                       

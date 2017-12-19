@@ -19,13 +19,13 @@ class UserCard extends React.Component{
                         }}>
                             <Header
                                 title={v.user}
-                                thumb= {require(`static/img/avatar/${v.avatar}.png`)}
+                                thumb= {require(`static/img/avatar/${v.avatar||'zebra'}.png`)}
                                 extra={<span>{v.title}</span>}
                             />   
                             <Body>
                                 {v.type==='boss'?<div>公司：{v.company}</div>:null}
                                 <WhiteSpace />
-                                {v.desc.split('\n').map((val,index)=>(
+                                {v.desc&&v.desc.split('\n').map((val,index)=>(
                                     <div key={index}>{val}</div>
                                 ))} 
                                 <WhiteSpace />
